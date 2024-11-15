@@ -30,7 +30,7 @@ export const useMusicStore = create<MusicStore>((set) => ({
                 albums: response.data
             });
         } catch (err) {
-            const error = err as AxiosError;
+            const error = err as AxiosError<{ message?: string }>;
             if (axios.isAxiosError(error) && error.response) {
                 set({
                     error: error.response.data?.message || "An error occurred while fetching albums."
