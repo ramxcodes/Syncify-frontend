@@ -1,15 +1,19 @@
 import { axiosInstance } from "@/lib/axios";
-import { create } from "zustand";
-import axios, { AxiosError } from "axios";
 import { Album, Song } from "@/types";
+import { create } from "zustand";
+import { isAxiosError } from "axios";
 
 interface MusicStore {
     songs: Song[];
     albums: Album[];
     isLoading: boolean;
     error: string | null;
+    currentAlbum: Album | null;
+    
 
     fetchAlbums: () => Promise<void>;
+    fetchAlbumById: (id: string) => Promise<void>;
+    
 }
 
 export const useMusicStore = create<MusicStore>((set) => ({
@@ -17,31 +21,38 @@ export const useMusicStore = create<MusicStore>((set) => ({
     songs: [],
     isLoading: false,
     error: null,
+    currentAlbum: null,
 
     fetchAlbums: async () => {
-        set({
-            isLoading: true,
-            error: null
-        });
+        set({ isLoading: true, error: null });
 
         try {
             const response = await axiosInstance.get("/albums");
-            set({
-                albums: response.data
-            });
-        } catch (err) {
-            const error = err as AxiosError<{ message?: string }>;
-            if (axios.isAxiosError(error) && error.response) {
-                set({
-                    error: error.response.data?.message || "An error occurred while fetching albums."
-                });
+            set({ albums: response.data });
+        } catch (error: unknown) {
+            if (isAxiosError(error)) {
+                set({ error: error.response?.data.message });
             } else {
-                set({
-                    error: "An unexpected error occurred."
-                });
+                set({ error: (error as Error).message });
             }
         } finally {
             set({ isLoading: false });
         }
-    }
+    },
+
+    fetchAlbumById: async (id) => {
+        set({ isLoading: true, error: null });
+        try {
+            const response = await axiosInstance.get(`/albums/${id}`);
+            set({ currentAlbum: response.data });
+        } catch (error: unknown) {
+            if (isAxiosError(error)) {
+                set({ error: error.response?.data.message });
+            } else {
+                set({ error: (error as Error).message });
+            }
+        } finally {
+            set({ isLoading: false });
+        }
+    },
 }));
