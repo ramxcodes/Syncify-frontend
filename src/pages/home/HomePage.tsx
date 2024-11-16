@@ -5,6 +5,7 @@ import FeaturedSection from "./components/FeaturedSection";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useUser } from "@clerk/clerk-react";
 import SectionGrid from "./components/SectionGrid";
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 const HomePage = () => {
   const { user } = useUser();
@@ -18,13 +19,21 @@ const HomePage = () => {
     fetchTrendingSongs,
   } = useMusicStore();
 
+
+   const { initializeQueue } = usePlayerStore();
+
+  useEffect(() => {
+    if(madeForYouSongs.length > 0 && featuredSongs.length > 0 && trendingSongs.length > 0) {
+      const allSongs = [...featuredSongs, ...madeForYouSongs, ...trendingSongs];
+      initializeQueue(allSongs);
+    }
+  }, [initializeQueue, featuredSongs, madeForYouSongs, trendingSongs]);
+
   useEffect(() => {
     fetchFeaturedSongs();
     fetchMadeForYouSongs();
     fetchTrendingSongs();
   }, [fetchFeaturedSongs, fetchMadeForYouSongs, fetchTrendingSongs]);
-
-  console.log({ featuredSongs, madeForYouSongs, trendingSongs, isLoading });
 
   return (
     <main className="rounded-md overflow-hidden h-full bg-gradient-to-b from-zinc-800 to-zinc-900">
