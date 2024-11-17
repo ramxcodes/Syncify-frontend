@@ -1,0 +1,20 @@
+/* Add this to your global styles or a relevant CSS file */
+
+::-webkit-scrollbar {
+    width: 8px; /* Adjust the width of the scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #20262e; /* Color for the scrollbar thumb */
+    border-radius: 4px; /* Rounded corners for the thumb */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #6b7280; /* Hover color for the thumb */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #2d3748; /* Background color of the track */
+    border-radius: 4px; /* Rounded corners for the track */
+  }
+  
