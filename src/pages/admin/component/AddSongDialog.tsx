@@ -21,7 +21,7 @@ import { useMusicStore } from "@/stores/useMusicStore";
 import { Plus, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import toast from "react-hot-toast";
-
+import "./Dialog.css";
 interface NewSong {
   title: string;
   artist: string;
@@ -157,7 +157,7 @@ const AddSongDialog = () => {
                     <Upload className="h-6 w-6 text-zinc-400" />
                   </div>
                   <div className="text-sm text-zinc-400 mb-2">
-                    Upload artwork
+                    Upload Image
                   </div>
                   <Button variant="outline" size="sm" className="text-xs">
                     Choose File
