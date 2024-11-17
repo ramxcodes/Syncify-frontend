@@ -13,7 +13,7 @@ function App() {
     <>
       <Routes>
         <Route
-          path="/ss0-callback"
+          path="/sso-callback"
           element={
             <AuthenticateWithRedirectCallback
               signUpForceRedirectUrl={"/auth-callback"}
