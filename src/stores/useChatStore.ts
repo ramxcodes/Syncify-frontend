@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { axiosInstance } from "@/lib/axios";
 import { Message, User } from "@/types";
 import { create } from "zustand";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
+import { isAxiosError } from "axios";
 
 interface ChatStore {
   users: User[];
   isLoading: boolean;
   error: string | null;
-  socket: any;
+  socket: Socket | null;
   isConnected: boolean;
   onlineUsers: Set<string>;
   userActivities: Map<string, string>;
@@ -26,7 +26,7 @@ interface ChatStore {
 const baseURL =
   import.meta.env.MODE === "development" ? "http://localhost:5000" : "/";
 
-const socket = io(baseURL, {
+const socket: Socket = io(baseURL, {
   autoConnect: false, // only connect if user is authenticated
   withCredentials: true,
 });
@@ -49,8 +49,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     try {
       const response = await axiosInstance.get("/users");
       set({ users: response.data });
-    } catch (error: any) {
-      set({ error: error.response.data.message });
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        set({ error: error.response?.data.message });
+      } else {
+        set({ error: (error as Error).message });
+      }
     } finally {
       set({ isLoading: false });
     }
@@ -118,7 +122,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
   sendMessage: async (receiverId, senderId, content) => {
     const socket = get().socket;
-    if (!socket) return;
+    if (!socket) return; // Ensure socket is initialized
 
     socket.emit("send_message", { receiverId, senderId, content });
   },
@@ -128,8 +132,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     try {
       const response = await axiosInstance.get(`/users/messages/${userId}`);
       set({ messages: response.data });
-    } catch (error: any) {
-      set({ error: error.response.data.message });
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        set({ error: error.response?.data.message });
+      } else {
+        set({ error: (error as Error).message });
+      }
     } finally {
       set({ isLoading: false });
     }
