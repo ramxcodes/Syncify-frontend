@@ -17,11 +17,11 @@ function App() {
           path="/sso-callback"
           element={
             <AuthenticateWithRedirectCallback
-              signUpForceRedirectUrl={"https://accounts.syncify.rocks/sign-in"}
+              signUpForceRedirectUrl={"/auth-callback"}
             />
           }
         />
-        <Route path="https://accounts.syncify.rocks/sign-in" element={<AuthCallbackPage />} />
+        <Route path="/auth-callback" element={<AuthCallbackPage />} />
         <Route path="/admin" element={<AdminPage />} />
 
         <Route element={<MainLayout />}>

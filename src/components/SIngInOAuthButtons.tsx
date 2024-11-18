@@ -12,7 +12,7 @@ const SignInOAuthButtons = () => {
 		signIn.authenticateWithRedirect({
 			strategy: "oauth_google",
 			redirectUrl: "/sso-callback",
-			redirectUrlComplete: "https://www.syncify.rocks/",
+			redirectUrlComplete: "/auth-callback",
 		});
 	};
 
