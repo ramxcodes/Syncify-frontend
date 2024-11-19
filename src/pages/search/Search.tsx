@@ -16,23 +16,20 @@ const SearchComponent = () => {
   const { user } = useUser();
 
   const initializeQueue = usePlayerStore((state) => state.initializeQueue);
-  // const setCurrentSong = usePlayerStore((state) => state.setCurrentSong);
   const playAlbum = usePlayerStore((state) => state.playAlbum);
 
   useEffect(() => {
-    // Debounce to avoid excessive API calls
     const timeout = setTimeout(() => {
       if (query) {
         searchSongs(query);
       }
-    }, 500); // Trigger search after 500ms of inactivity
+    }, 500); 
 
     return () => clearTimeout(timeout);
   }, [query, searchSongs]);
 
   useEffect(() => {
     if (searchResults.length > 0) {
-      // Initialize the player queue with the search results
       initializeQueue(searchResults);
     }
   }, [searchResults, initializeQueue]);
@@ -45,6 +42,8 @@ const SearchComponent = () => {
 
   const handleSongClick = (song: Song, index: number | undefined) => {
     playAlbum(searchResults, index);
+    console.log("Song clicked:", song);
+    
   };
 
   return (
@@ -74,7 +73,6 @@ const SearchComponent = () => {
         <ScrollArea className="w-full relative">
           {query && searchResults.length > 0 ? (
             <div className="flex flex-col gap-4">
-              {/* Render the first song in a larger box */}
               <div
                 key={searchResults[0]._id}
                 onClick={() => handleSongClick(searchResults[0], 0)}
@@ -97,7 +95,6 @@ const SearchComponent = () => {
                 </div>
               </div>
 
-              {/* Render the remaining songs in a single column */}
               {searchResults.slice(1).map((song, index) => (
                 <div
                   key={song._id}
@@ -121,7 +118,6 @@ const SearchComponent = () => {
             </div>
           ) : !query && !isLoading ? (
             <div className="flex flex-col gap-4 mt-10">
-              {/* Render a skeleton component when there is no search */}
               <div
                 className="flex items-center bg-zinc-800/50 rounded-md overflow-hidden relative p-4 mt-4 animate-pulse"
                 style={{ height: "200px" }}
@@ -159,7 +155,6 @@ const SearchComponent = () => {
               </div>
             )
           )}
-          {/* Fade in bottom and top */}
           <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-neutral-900 to-transparent pointer-events-none"></div>
           <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-neutral-900 to-transparent pointer-events-none z-10"></div>
         </ScrollArea>
