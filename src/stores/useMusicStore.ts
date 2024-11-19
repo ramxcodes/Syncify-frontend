@@ -14,6 +14,9 @@ interface MusicStore {
   madeForYouSongs: Song[];
   trendingSongs: Song[];
   stats: Stats;
+  searchResults: Song[];
+  currentSong: Song | null;
+  isPlaying: boolean;
 
   fetchAlbums: () => Promise<void>;
   fetchAlbumById: (id: string) => Promise<void>;
@@ -22,8 +25,11 @@ interface MusicStore {
   fetchTrendingSongs: () => Promise<void>;
   fetchStats: () => Promise<void>;
   fetchSongs: () => Promise<void>;
+  searchSongs: (name: string) => Promise<void>;
   deleteSong: (id: string) => Promise<void>;
   deleteAlbum: (id: string) => Promise<void>;
+  setCurrentSong: (song: Song) => void;
+  togglePlay: () => void;
 }
 
 export const useMusicStore = create<MusicStore>((set) => ({
@@ -35,12 +41,15 @@ export const useMusicStore = create<MusicStore>((set) => ({
   featuredSongs: [],
   madeForYouSongs: [],
   trendingSongs: [],
+  searchResults: [],
   stats: {
     totalSongs: 0,
     totalAlbums: 0,
     totalUsers: 0,
     totalArtists: 0,
   },
+  currentSong: null,
+  isPlaying: false,
 
   fetchAlbums: async () => {
     set({ isLoading: true, error: null });
@@ -167,6 +176,31 @@ export const useMusicStore = create<MusicStore>((set) => ({
     }
   },
 
+  searchSongs: async (name) => {
+    set({
+      isLoading: true,
+      error: null,
+    });
+    try {
+      const response = await axiosInstance.get(
+        `/songs/search?name=${encodeURIComponent(name)}`
+      );
+      set({
+        searchResults: response.data,
+      });
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        set({ error: error.response?.data.message });
+      } else {
+        set({ error: (error as Error).message });
+      }
+    } finally {
+      set({
+        isLoading: false,
+      });
+    }
+  },
+
   fetchStats: async () => {
     set({
       isLoading: true,
@@ -241,5 +275,13 @@ export const useMusicStore = create<MusicStore>((set) => ({
         isLoading: false,
       });
     }
+  },
+
+  setCurrentSong: (song) => {
+    set({ currentSong: song, isPlaying: true });
+  },
+
+  togglePlay: () => {
+    set((state) => ({ isPlaying: !state.isPlaying }));
   },
 }));
