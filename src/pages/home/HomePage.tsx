@@ -1,6 +1,6 @@
 import Topbar from "@/components/Topbar";
 import { useMusicStore } from "@/stores/useMusicStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import FeaturedSection from "./components/FeaturedSection";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useUser } from "@clerk/clerk-react";
@@ -19,11 +19,32 @@ const HomePage = () => {
     fetchTrendingSongs,
   } = useMusicStore();
 
+  const { initializeQueue } = usePlayerStore();
+  const [greeting, setGreeting] = useState("Good Morning");
 
-   const { initializeQueue } = usePlayerStore();
+  const updateGreeting = () => {
+    const currentHour = new Date().getHours();
+    if (currentHour >= 5 && currentHour < 12) {
+      setGreeting("Good Morning");
+    } else if (currentHour >= 12 && currentHour < 17) {
+      setGreeting("Good Afternoon");
+    } else if (currentHour >= 17 && currentHour < 21) {
+      setGreeting("Good Evening");
+    } else {
+      setGreeting("Good Night");
+    }
+  };
 
   useEffect(() => {
-    if(madeForYouSongs.length > 0 && featuredSongs.length > 0 && trendingSongs.length > 0) {
+    updateGreeting();
+  }, []);
+
+  useEffect(() => {
+    if (
+      madeForYouSongs.length > 0 &&
+      featuredSongs.length > 0 &&
+      trendingSongs.length > 0
+    ) {
       const allSongs = [...featuredSongs, ...madeForYouSongs, ...trendingSongs];
       initializeQueue(allSongs);
     }
@@ -41,7 +62,8 @@ const HomePage = () => {
       <ScrollArea className="h-[calc(100vh-180px)]">
         <div className="p-4 sm:p-6">
           <h1 className="text-2xl sm:text-3xl font-bold mb-6">
-          Good Afternoon{user?.firstName ? `, ${user.firstName}` : ''}!
+            {greeting}
+            {user?.firstName ? `, ${user.firstName}` : ""}!
           </h1>
           <FeaturedSection />
           <div className="space-y-8">
