@@ -9,8 +9,17 @@ import FriendsActivity from "./components/FriendsActivity";
 import AudioPlayer from "./components/AudioPlayer";
 import { PlaybackControls } from "./components/PlaybackControls";
 import { useState } from "react";
-import { Home, Search, MessageCircle, Menu, X } from "lucide-react";
-import useIsMobile from "./components/hooks/useIsMobile";
+import useIsMobile from "./hooks/useIsMobile";
+import {
+  Home,
+  Search,
+  MessageCircle,
+  Menu,
+  X,
+  User,
+  Library,
+} from "lucide-react";
+import { SignedIn } from "@clerk/clerk-react";
 
 const MainLayout = () => {
   const isMobile = useIsMobile();
@@ -57,10 +66,11 @@ const MainLayout = () => {
 
       <PlaybackControls />
 
+      {/* Floating Action Button */}
       {isMobile && (
         <>
           <button
-            className="fixed bottom-24 right-4 z-50 p-4 bg-emerald-600 rounded-full shadow-lg focus:outline-none"
+            className="fixed bottom-40 right-4 z-50 p-4 bg-emerald-600 rounded-full shadow-lg focus:outline-none cursor-move"
             onClick={() => setMenuOpen((prev) => !prev)}
           >
             {menuOpen ? (
@@ -70,8 +80,9 @@ const MainLayout = () => {
             )}
           </button>
 
+          {/* Pop-up Menu */}
           {menuOpen && (
-            <div className="fixed bottom-40 right-4 z-40 flex flex-col items-center space-y-4">
+            <div className="fixed bottom-56 right-4 z-40 flex flex-col items-center space-y-4">
               <Link
                 to="/"
                 className="p-3 bg-zinc-800 rounded-full hover:bg-emerald-900"
@@ -87,11 +98,27 @@ const MainLayout = () => {
                 <Search size={20} className="text-white" />
               </Link>
               <Link
-                to="/chat"
+                to="/playlist"
                 className="p-3 bg-zinc-800 rounded-full hover:bg-emerald-900"
                 onClick={() => setMenuOpen(false)}
               >
-                <MessageCircle size={20} className="text-white" />
+                <Library size={20} className="text-white" />
+              </Link>
+              <SignedIn>
+                <Link
+                  to="/chat"
+                  className="p-3 bg-zinc-800 rounded-full hover:bg-emerald-900"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <MessageCircle size={20} className="text-white" />
+                </Link>
+              </SignedIn>
+              <Link
+                to="/user-activities"
+                className="p-3 bg-zinc-800 rounded-full hover:bg-emerald-900"
+                onClick={() => setMenuOpen(false)}
+              >
+                <User size={20} className="text-white" />
               </Link>
             </div>
           )}
