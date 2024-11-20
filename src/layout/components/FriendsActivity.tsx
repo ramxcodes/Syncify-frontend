@@ -64,7 +64,7 @@ const FriendsActivity = () => {
                         <div className="mt-1 text-sm text-white font-medium truncate">
                           {activity.replace("Playing ", "").split(" by ")[0]}
                         </div>
-                        <div className="text-xs text-zinc-400 truncate">
+                        <div className="text-xs text-zinc-400 truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[12rem]">
                           {activity.split(" by ")[1]}
                         </div>
                       </div>
