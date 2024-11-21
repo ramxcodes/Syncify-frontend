@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMusicStore } from "@/stores/useMusicStore";
 import { usePlayerStore } from "@/stores/usePlayerStore";
-import { Clock, Pause, Play } from "lucide-react";
+import { Clock, Pause, Play, Shuffle } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -16,7 +16,8 @@ export const formatDuration = (seconds: number) => {
 export const AlbumPage = () => {
   const { albumId } = useParams();
   const { fetchAlbumById, currentAlbum, isLoading } = useMusicStore();
-  const { currentSong, isPlaying, togglePlay, playAlbum } = usePlayerStore();
+  const { currentSong, isPlaying, togglePlay, playAlbum, shuffleAlbum } =
+    usePlayerStore();
 
   useEffect(() => {
     if (albumId) fetchAlbumById(albumId);
@@ -40,6 +41,12 @@ export const AlbumPage = () => {
     if (!currentAlbum) return;
 
     playAlbum(currentAlbum?.songs, index);
+  };
+
+  const handleShuffleAlbum = () => {
+    if (!currentAlbum) return;
+
+    shuffleAlbum(currentAlbum?.songs);
   };
 
   return (
@@ -93,6 +100,13 @@ export const AlbumPage = () => {
                 ) : (
                   <Play className="h-7 w-7 text-black" />
                 )}
+              </Button>
+              <Button
+                onClick={handleShuffleAlbum}
+                size="icon"
+                className="w-14 h-14 rounded-full bg-transparent hover:bg-green-400 text-white hover:text-black"
+              >
+                <Shuffle className="w-6 h-6 " />
               </Button>
             </div>
 
