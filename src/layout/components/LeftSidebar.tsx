@@ -1,7 +1,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SignedIn } from "@clerk/clerk-react";
-import { HomeIcon, MessageCircle, Search } from "lucide-react";
+import { HomeIcon,  Laptop,  MessageCircle, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import PlaylistList from "./PlaylistList";
 
@@ -52,11 +52,25 @@ const LeftSidebar = () => {
               <span className="hidden md:inline">Messages</span>
             </Link>
           </SignedIn>
+          <Link
+              to={"/dev"}
+              className={cn(
+                buttonVariants({
+                  variant: "ghost",
+                  className:
+                    "w-full justify-start text-white hover:bg-zinc-800",
+                })
+              )}
+            >
+              <Laptop className="size-5 mr-2 text-emerald-600" />
+              <span className="hidden md:inline">Developer</span>
+            </Link>
         </div>
       </div>
 
       {/* Library section */}
       <PlaylistList />
+      
     </div>
   );
 };
