@@ -15,6 +15,7 @@ interface PlayerStore {
 
   initializeQueue: (songs: Song[]) => void;
   playAlbum: (songs: Song[], startIndex?: number) => void;
+  shuffleAlbum: (songs: Song[], startIndex?: number) => void;
   setCurrentSong: (song: Song | null) => void;
   togglePlay: () => void;
   playNext: () => void;
@@ -51,6 +52,29 @@ export const usePlayerStore = create<PlayerStore>((set, get) => ({
 
     set({
       queue: songs,
+      currentSong: song,
+      currentIndex: startIndex,
+      isPlaying: true,
+    });
+  },
+
+  shuffleAlbum: (songs: Song[], startIndex = 0) => {
+    if (songs.length === 0) return;
+
+    const shuffledSongs = [...songs].sort(() => Math.random() - 0.5);
+    const song = shuffledSongs[startIndex];
+    const socket = useChatStore.getState().socket;
+
+    if (socket?.auth) {
+      const auth = socket.auth as Auth;
+      socket.emit("update_activity", {
+        userId: auth.userId,
+        activity: `Playing ${song.title} by ${song.artist}`,
+      });
+    }
+
+    set({
+      queue: shuffledSongs,
       currentSong: song,
       currentIndex: startIndex,
       isPlaying: true,
