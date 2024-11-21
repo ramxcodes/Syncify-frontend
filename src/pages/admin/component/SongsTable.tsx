@@ -16,7 +16,7 @@ const SongsTable = () => {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-zinc-400">Loading Songs...</div>
+        <div className="text-zinc-400">Loading songs...</div>
       </div>
     );
   }
@@ -24,7 +24,7 @@ const SongsTable = () => {
   if (error) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-red-500">{error}</div>
+        <div className="text-red-400">{error}</div>
       </div>
     );
   }
@@ -36,14 +36,15 @@ const SongsTable = () => {
           <TableHead className="w-[50px]"></TableHead>
           <TableHead>Title</TableHead>
           <TableHead>Artist</TableHead>
-          <TableHead>Release Date</TableHead>
+          <TableHead className="w-[10rem]">Release Date</TableHead>
           <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
+
       <TableBody>
         {songs.map((song) => (
           <TableRow key={song._id} className="hover:bg-zinc-800/50">
-            <TableCell className="w-[50px] p-0">
+            <TableCell>
               <img
                 src={song.imageUrl}
                 alt={song.title}
@@ -54,19 +55,20 @@ const SongsTable = () => {
             <TableCell>{song.artist}</TableCell>
             <TableCell>
               <span className="inline-flex items-center gap-1 text-zinc-400">
-                <Calendar className="size-4" />
+                <Calendar className="h-4 w-4" />
                 {song.createdAt.split("T")[0]}
               </span>
             </TableCell>
+
             <TableCell className="text-right">
-              <div className="flex justify-end gap-2">
+              <div className="flex gap-2 justify-end">
                 <Button
                   variant={"ghost"}
-                  size="sm"
-                  className="text-red-400 hover:text-red-500 hover:bg-red-400/10"
+                  size={"sm"}
+                  className="text-red-400 hover:text-red-300 hover:bg-red-400/10"
                   onClick={() => deleteSong(song._id)}
                 >
-                    <Trash2 className="size-4" />
+                  <Trash2 className="size-4" />
                 </Button>
               </div>
             </TableCell>
@@ -76,5 +78,4 @@ const SongsTable = () => {
     </Table>
   );
 };
-
 export default SongsTable;
