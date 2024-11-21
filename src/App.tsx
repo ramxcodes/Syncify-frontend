@@ -11,6 +11,7 @@ import NotFoundPage from "./pages/404/NotFoundPage";
 import Search from "./pages/search/Search";
 import UserActivitiesPage from "./pages/user-activities/UserActivitiesPage";
 import PlaylistPage from "./pages/playlist/PlaylistPage";
+import DeveloperCreditPage from "./pages/dev/DeveloperCreditPage.tsx";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/user-activities" element={<UserActivitiesPage />} />
           <Route path="/playlist" element={<PlaylistPage />} />
           <Route path="/albums/:albumId" element={<AlbumPage />} />
+          <Route path="/dev" element={<DeveloperCreditPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
