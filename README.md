@@ -16,7 +16,7 @@ Syncify is a modern, feature-rich music streaming platform that combines a sleek
 
 #### Connect With Me 🚀
 
-[![Linkedin](https://skillicons.dev/icons?i=linkedin)](https://www.linkedin.com/in/ramcodes) [![github](https://skillicons.dev/icons?i=github)](https://www.github.com/ramcodes) [![Twitter](https://skillicons.dev/icons?i=twitter)](https://twitter.com/ramxcodes) [![instagram](https://skillicons.dev/icons?i=instagram)](https://instagram.com/__ramfr) [![pin](https://skillicons.dev/icons?i=pinterest)](https://instagram.com/__ramfr)
+[![Linkedin](https://skillicons.dev/icons?i=linkedin)](https://www.linkedin.com/in/ramcodes) [![github](https://skillicons.dev/icons?i=github)](https://www.github.com/ramxcodes) [![Twitter](https://skillicons.dev/icons?i=twitter)](https://twitter.com/ramxcodes) [![instagram](https://skillicons.dev/icons?i=instagram)](https://instagram.com/__ramfr)
 
 ---
 
