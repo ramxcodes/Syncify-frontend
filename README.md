@@ -8,7 +8,7 @@ Syncify is a modern, feature-rich music streaming platform that combines a sleek
 
 <br>
 
-<img src="https://raw.githubusercontent.com/ramxcodes/Syncify/refs/heads/master/SS.png?token=GHSAT0AAAAAACWF5Z6NTH5EXCKAEDPF3O6YZZ7OPLQ" alt="Website">
+<img src="https://raw.githubusercontent.com/ramxcodes/Syncify-frontend/refs/heads/main/public/showcase.png" alt="Website">
 
 #### LIVE DEMO 👉🏻 <a href="https://syncify.rocks/">Click to visit website</a>
 
