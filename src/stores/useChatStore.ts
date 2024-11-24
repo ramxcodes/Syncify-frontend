@@ -25,7 +25,7 @@ interface ChatStore {
 
 const baseURL =
   import.meta.env.MODE === "development"
-    ? "http://localhost:5000"
+    ? "https://syncify-backend-production.up.railway.app/"
     : import.meta.env.VITE_CHAT_BASE_URL;
 
 const socket = io(baseURL, {
